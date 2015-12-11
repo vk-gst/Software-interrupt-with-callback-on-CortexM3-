@@ -1,0 +1,31 @@
+
+This can be used to execute piece of code and make sure it is not interrupted by
+selected interrupts.
+
+Mechanism to invoke a software interrupt. This allows execution
+to jump into privileged(interrupt handling) context.
+Depending on priority assigned you could allow selective interruption.
+
+
+Example - 
+			// Global var - 
+			uint32_t piVal = 3.1416;
+			
+			// Function we want to execute in SVC  - 
+			void testSWI(void *args)
+			{
+				uint32_t pi= *(uint32_t *)args;
+			}
+			
+			//	Suppose we want to execute testSWI function and we want to pass
+			//	piVal as an argument to function and we want the function to 
+			//	execute with interrupt priority level of 1. Then in our code 
+			//	we call
+			SWI_Req(1, testSWI, (void*)(&piVal));
+			
+			//	Any interrupt more or equal to 1 cannot prempt execution 
+			//  of this function
+
+reference - 
+	The Definitive Guide to the ARM®Cortex-M3
+	See section(using SVC with C function call) in chapter 'Exception prog'
